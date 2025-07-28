@@ -1,0 +1,10 @@
+project_id = "nohrizhxwrsinsyyojju"
+
+[functions.blockchain-transcript]
+verify_jwt = true
+
+[functions.add-verification-to-pdf]
+verify_jwt = true
+
+[functions.verify-transcript]
+verify_jwt = false
