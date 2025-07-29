@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ResponsiveNavbar } from "@/components/ResponsiveNavbar";
 import { 
   Upload, 
   FileText, 
@@ -697,84 +698,98 @@ const InstitutionDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <Building className="h-8 w-8 text-primary mr-3" />
-              <h1 className="text-2xl font-bold text-foreground">Institution Portal</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              {editingName ? (
-                <div className="flex items-center space-x-2">
-                  <Input
-                    value={newInstitutionName}
-                    onChange={(e) => setNewInstitutionName(e.target.value)}
-                    placeholder="Enter institution name"
-                    className="w-48"
-                    onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        updateInstitutionName();
-                      }
-                    }}
-                  />
-                  <Button size="sm" onClick={updateInstitutionName}>
-                    <CheckCircle className="h-3 w-3" />
-                  </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
-                    onClick={() => {
-                      setEditingName(false);
-                      setNewInstitutionName("");
-                    }}
-                  >
-                    <AlertCircle className="h-3 w-3" />
-                  </Button>
-                </div>
-              ) : (
-                <Badge 
-                  variant="outline" 
-                  className="bg-secondary/10 cursor-pointer hover:bg-secondary/20"
-                  onClick={() => {
-                    setEditingName(true);
-                    setNewInstitutionName(institution?.name || "");
-                  }}
-                >
-                  <ShieldCheck className="h-3 w-3 mr-1" />
-                  {institution?.name || "Click to set name"}
-                  <Edit className="h-3 w-3 ml-2" />
-                </Badge>
-              )}
-              <Button variant="outline" size="sm" onClick={signOut}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
+      <ResponsiveNavbar 
+        title="Institution Portal"
+        userType="institution"
+        userName={institution?.name || "Institution"}
+        onLogout={signOut}
+      />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        {/* Institution Name Edit Section */}
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="flex-1">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Manage Institution</h2>
+              <div className="flex items-center gap-2 text-sm md:text-base text-muted-foreground">
+                <Building className="h-4 w-4" />
+                <span>
+                  {editingName ? (
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                      <Input
+                        value={newInstitutionName}
+                        onChange={(e) => setNewInstitutionName(e.target.value)}
+                        className="w-full md:w-64"
+                        placeholder="Enter institution name"
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            updateInstitutionName();
+                          }
+                        }}
+                      />
+                      <div className="flex gap-2">
+                        <Button 
+                          size="sm" 
+                          onClick={updateInstitutionName}
+                          disabled={!newInstitutionName.trim()}
+                        >
+                          <CheckCircle className="h-3 w-3 mr-1" />
+                          Save
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          onClick={() => {
+                            setEditingName(false);
+                            setNewInstitutionName("");
+                          }}
+                        >
+                          <AlertCircle className="h-3 w-3 mr-1" />
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span>{institution?.name || "Click to set name"}</span>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
+                        onClick={() => {
+                          setEditingName(true);
+                          setNewInstitutionName(institution?.name || "");
+                        }}
+                      >
+                        <Edit className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  )}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">Academic Transcript Management</h2>
-          <p className="text-muted-foreground">Upload and manage student transcripts with blockchain verification</p>
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Academic Transcript Management</h2>
+          <p className="text-sm md:text-base text-muted-foreground">Upload and manage student transcripts with blockchain verification</p>
         </div>
 
-        <Tabs defaultValue="students" className="space-y-6">
+        <Tabs defaultValue="students" className="space-y-4 md:space-y-6">
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="students" className="flex items-center gap-2">
-              <Users className="h-4 w-4" />
-              Students
+            <TabsTrigger value="students" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-4">
+              <Users className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Students</span>
+              <span className="sm:hidden">Users</span>
             </TabsTrigger>
-            <TabsTrigger value="upload" className="flex items-center gap-2">
-              <Upload className="h-4 w-4" />
-              Upload Transcript
+            <TabsTrigger value="upload" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-4">
+              <Upload className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Upload Transcript</span>
+              <span className="sm:hidden">Upload</span>
             </TabsTrigger>
-            <TabsTrigger value="manage" className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Manage Transcripts
+            <TabsTrigger value="manage" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm px-2 md:px-4">
+              <FileText className="h-3 w-3 md:h-4 md:w-4" />
+              <span className="hidden sm:inline">Manage Transcripts</span>
+              <span className="sm:hidden">Manage</span>
             </TabsTrigger>
           </TabsList>
 
@@ -994,14 +1009,15 @@ const InstitutionDashboard = () => {
                           )}
                         </div>
                       
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           <Button 
                             variant="outline" 
                             size="sm"
                             onClick={() => window.open(transcript.file_url, '_blank')}
+                            className="flex items-center gap-1"
                           >
-                            <Download className="h-3 w-3 mr-1" />
-                            Download
+                            <Download className="h-3 w-3" />
+                            <span className="hidden md:inline">Download</span>
                           </Button>
                           <Button 
                             variant="outline" 
@@ -1010,9 +1026,10 @@ const InstitutionDashboard = () => {
                               setSelectedTranscript(transcript);
                               setShowDetailsModal(true);
                             }}
+                            className="flex items-center gap-1"
                           >
-                            <Search className="h-3 w-3 mr-1" />
-                            View Details
+                            <Search className="h-3 w-3" />
+                            <span className="hidden md:inline">Details</span>
                           </Button>
                           <Button 
                             variant="outline" 

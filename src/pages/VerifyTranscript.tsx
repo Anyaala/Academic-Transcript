@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { ResponsiveNavbar } from "@/components/ResponsiveNavbar";
 import { 
   Shield, 
   Upload, 
@@ -550,86 +551,64 @@ const VerifyTranscript = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <img 
-              src="https://umatsridinternship.com/images/logo.png" 
-              alt="LOGO" 
-              className="h-6 w-6 object-contain mr-3"
-              />
-              <h1 className="text-2xl font-bold text-foreground">Transcript Verification</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Link to="/" className="text-muted-foreground hover:text-foreground">
-                Home
-              </Link>
-              <Link to="/institution/login" className="text-muted-foreground hover:text-foreground">
-                Institution
-              </Link>
-              <Link to="/student/login" className="text-muted-foreground hover:text-foreground">
-                Student
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
+      <ResponsiveNavbar 
+        title="Transcript Verification"
+        userType="public"
+      />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center mb-4">
-            <div className="bg-gradient-hero rounded-full p-4">
+            <div className="bg-gradient-hero rounded-full p-3 sm:p-4">
               <img 
                 src="https://umatsridinternship.com/images/logo.png" 
                 alt="LOGO" 
-                className="h-12 w-12 object-contain"
+                className="h-8 w-8 sm:h-12 sm:w-12 object-contain"
               />
             </div>
           </div>
-          <h2 className="text-3xl font-bold text-foreground mb-2">Verify Academic Transcript</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 px-4">Verify Academic Transcript</h2>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto px-4">
             Instantly verify the authenticity of any academic transcript using blockchain technology. 
             No registration required - simply enter the verification ID or upload the document.
           </p>
         </div>
 
         <Card className="shadow-medium">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+          <CardHeader className="pb-4">
+            <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
               <Search className="h-5 w-5" />
               Verification Methods
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-4 sm:px-6">
             <Tabs defaultValue="id" className="w-full">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="id">Verification ID</TabsTrigger>
-                <TabsTrigger value="file">Upload File</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="id" className="text-sm sm:text-base">Verification ID</TabsTrigger>
+                <TabsTrigger value="file" className="text-sm sm:text-base">Upload File</TabsTrigger>
               </TabsList>
               
               <TabsContent value="id" className="space-y-4">
                 <form onSubmit={verifyById} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="verificationId">Enter Verification ID</Label>
+                    <Label htmlFor="verificationId" className="text-sm sm:text-base">Enter Verification ID</Label>
                     <Input
                       id="verificationId"
                       type="text"
                       placeholder="VT-1753152838463-59sk1mi9y"
                       value={verificationId}
                       onChange={(e) => setVerificationId(e.target.value)}
-                      className="font-mono"
+                      className="font-mono text-sm sm:text-base h-11 sm:h-10"
                       required
                     />
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       Find the verification ID on your downloaded transcript
                     </p>
                   </div>
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary hover:opacity-90"
+                    className="w-full bg-gradient-primary hover:opacity-90 h-11 sm:h-10 text-sm sm:text-base"
                     disabled={isLoading}
                   >
                     {isLoading ? "Verifying..." : "Verify Transcript"}
@@ -640,16 +619,17 @@ const VerifyTranscript = () => {
               <TabsContent value="file" className="space-y-4">
                 <form onSubmit={verifyByFile} className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="transcriptFile">Upload Transcript File</Label>
+                    <Label htmlFor="transcriptFile" className="text-sm sm:text-base">Upload Transcript File</Label>
                     <Input
                       id="transcriptFile"
                       type="file"
                       accept=".pdf"
                       onChange={handleFileUpload}
+                      className="h-11 sm:h-10 text-sm sm:text-base"
                       required
                     />
                     {uploadedFile && (
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs sm:text-sm text-muted-foreground break-all">
                         Selected: {uploadedFile.name}
                       </p>
                     )}
@@ -657,7 +637,7 @@ const VerifyTranscript = () => {
                   
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-secondary hover:opacity-90"
+                    className="w-full bg-gradient-secondary hover:opacity-90 h-11 sm:h-10 text-sm sm:text-base"
                     disabled={isLoading || !uploadedFile}
                   >
                     {isLoading ? "Verifying..." : "Verify by File"}
@@ -670,17 +650,17 @@ const VerifyTranscript = () => {
 
         {/* Verification Results */}
         {verificationResult && (
-          <Card className="mt-8 shadow-strong">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
+          <Card className="mt-6 sm:mt-8 shadow-strong">
+            <CardHeader className="pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <Shield className="h-5 w-5" />
                   Verification Results
                 </CardTitle>
                 {getStatusBadge(verificationResult.status)}
               </div>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
               {verificationResult.status === 'invalid' || verificationResult.status === 'rate_limited' || verificationResult.status === 'limit_exceeded' ? (
                 <div className="text-center py-8">
                   <div className="text-muted-foreground mb-4">
@@ -702,43 +682,43 @@ const VerifyTranscript = () => {
                   )}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <div className="bg-muted/50 rounded-lg p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                    <User className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">Student</span>
-                    </div>
-                    <p className="font-semibold">{verificationResult.studentName || "Unknown Student"}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <User className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-xs sm:text-sm text-muted-foreground">Student</span>
+                      </div>
+                      <p className="font-semibold text-sm sm:text-base">{verificationResult.studentName || "Unknown Student"}</p>
                       {verificationResult.studentEmail && (
-                         <p className="text-xs text-muted-foreground mt-1">{verificationResult.studentEmail}</p>
-                       )}
-                     </div>
+                        <p className="text-xs text-muted-foreground mt-1 break-all">{verificationResult.studentEmail}</p>
+                      )}
+                    </div>
                     
-                    <div className="bg-muted/50 rounded-lg p-4">
+                    <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Building className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Institution</span>
+                        <span className="text-xs sm:text-sm text-muted-foreground">Institution</span>
                       </div>
-                      <p className="font-semibold">{verificationResult.institution || "Unknown Institution"}</p>
+                      <p className="font-semibold text-sm sm:text-base">{verificationResult.institution || "Unknown Institution"}</p>
                     </div>
                   </div>
                   
-                  <div className="space-y-4">
-                    <div className="bg-muted/50 rounded-lg p-4">
+                  <div className="space-y-3 sm:space-y-4">
+                    <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <FileText className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Document Type</span>
+                        <span className="text-xs sm:text-sm text-muted-foreground">Document Type</span>
                       </div>
-                      <p className="font-semibold">Academic Transcript</p>
+                      <p className="font-semibold text-sm sm:text-base">Academic Transcript</p>
                     </div>
                     
-                    <div className="bg-muted/50 rounded-lg p-4">
+                    <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm text-muted-foreground">Issue Date</span>
+                        <span className="text-xs sm:text-sm text-muted-foreground">Issue Date</span>
                       </div>
-                      <p className="font-semibold">{verificationResult.issueDate || "Not Available"}</p>
+                      <p className="font-semibold text-sm sm:text-base">{verificationResult.issueDate || "Not Available"}</p>
                     </div>
                   </div>
                 </div>

@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ResponsiveNavbar } from "@/components/ResponsiveNavbar";
 import { 
   GraduationCap, 
   Download, 
@@ -190,32 +191,16 @@ const StudentDashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <GraduationCap className="h-8 w-8 text-secondary mr-3" />
-              <h1 className="text-2xl font-bold text-foreground">Student Portal</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Badge variant="outline" className="bg-secondary/10">
-                <Shield className="h-3 w-3 mr-1" />
-                {student?.full_name || "Student"}
-              </Badge>
-              <Button variant="outline" size="sm" onClick={signOut}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <ResponsiveNavbar 
+        title="Student Portal"
+        userInfo={student?.full_name || "Student"}
+        onSignOut={signOut}
+      />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-foreground mb-2">My Academic Transcripts</h2>
-          <p className="text-muted-foreground">View and download your verified academic transcripts</p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">My Academic Transcripts</h2>
+          <p className="text-sm md:text-base text-muted-foreground">View and download your verified academic transcripts</p>
         </div>
 
         {loading ? (
@@ -241,12 +226,12 @@ const StudentDashboard = () => {
             {transcripts.map((transcript) => (
             <Card key={transcript.id} className="bg-gradient-card border-0 shadow-medium">
               <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-xl text-foreground mb-2">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg md:text-xl text-foreground mb-2">
                       Academic Transcript
                     </CardTitle>
-                    <div className="flex items-center gap-2 text-muted-foreground">
+                    <div className="flex items-center gap-2 text-sm md:text-base text-muted-foreground">
                       <Building className="h-4 w-4" />
                       <span>{transcript.students?.institutions?.name || "Unknown Institution"}</span>
                     </div>
@@ -259,49 +244,50 @@ const StudentDashboard = () => {
               </CardHeader>
               
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-white/50 rounded-lg p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div className="bg-white/50 rounded-lg p-3 md:p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Issue Date</span>
+                      <span className="text-xs md:text-sm text-muted-foreground">Issue Date</span>
                     </div>
-                    <p className="font-semibold">{new Date(transcript.issued_at).toLocaleDateString()}</p>
+                    <p className="text-sm md:text-base font-semibold">{new Date(transcript.issued_at).toLocaleDateString()}</p>
                   </div>
                   
-                  <div className="bg-white/50 rounded-lg p-4">
+                  <div className="bg-white/50 rounded-lg p-3 md:p-4">
                     <div className="flex items-center gap-2 mb-2">
                       <FileText className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Upload Date</span>
+                      <span className="text-xs md:text-sm text-muted-foreground">Upload Date</span>
                     </div>
-                    <p className="font-semibold">{new Date(transcript.created_at).toLocaleDateString()}</p>
+                    <p className="text-sm md:text-base font-semibold">{new Date(transcript.created_at).toLocaleDateString()}</p>
                   </div>
                 </div>
 
-                <div className="bg-white/50 rounded-lg p-4">
-                  <h4 className="font-semibold mb-3 flex items-center gap-2">
+                <div className="bg-white/50 rounded-lg p-3 md:p-4">
+                  <h4 className="text-sm md:text-base font-semibold mb-3 flex items-center gap-2">
                     <QrCode className="h-4 w-4" />
                     Verification Information
                   </h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-muted-foreground">Verification ID:</span>
+                  <div className="space-y-3">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                      <span className="text-xs md:text-sm text-muted-foreground">Verification ID:</span>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-primary">{transcript.verification_id}</span>
+                        <span className="font-mono text-xs md:text-sm text-primary break-all">{transcript.verification_id}</span>
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => copyToClipboard(transcript.verification_id)}
+                          className="flex-shrink-0"
                         >
                           <Copy className="h-3 w-3" />
                         </Button>
                       </div>
                     </div>
                     {transcript.blockchain_tx && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Blockchain TX:</span>
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                        <span className="text-xs md:text-sm text-muted-foreground">Blockchain TX:</span>
                         <div className="flex items-center gap-2">
-                          <span className="font-mono text-secondary text-sm">{transcript.blockchain_tx}</span>
-                          <Button variant="ghost" size="sm">
+                          <span className="font-mono text-xs text-secondary break-all">{transcript.blockchain_tx}</span>
+                          <Button variant="ghost" size="sm" className="flex-shrink-0">
                             <ExternalLink className="h-3 w-3" />
                           </Button>
                         </div>
@@ -310,7 +296,7 @@ const StudentDashboard = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex flex-col md:flex-row gap-3">
                   <Button 
                     onClick={async () => {
                       try {
@@ -348,12 +334,14 @@ const StudentDashboard = () => {
                     className="flex-1 bg-gradient-secondary hover:opacity-90"
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Download Transcript
+                    <span className="hidden md:inline">Download Transcript</span>
+                    <span className="md:hidden">Download</span>
                   </Button>
-                  <Button variant="outline" asChild>
+                  <Button variant="outline" asChild className="flex-1 md:flex-initial">
                     <Link to="/verify">
                       <Shield className="h-4 w-4 mr-2" />
-                      Verify Online
+                      <span className="hidden md:inline">Verify Online</span>
+                      <span className="md:hidden">Verify</span>
                     </Link>
                   </Button>
                 </div>
